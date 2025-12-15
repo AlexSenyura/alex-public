@@ -1,0 +1,33 @@
+{% set rows = status.result %}
+<div class="level">
+    <div class="level-left"><h2 class="title is-4">Згенеровані теми</h2></div>
+    <div class="level-right"><button class="button is-small" onclick="downloadTopics('{{ job_id }}')">Експорт CSV</button></div>
+</div>
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead><tr><th>Заголовок</th><th>Hook</th><th>Outline</th><th>CTA</th><th>Оцінка</th><th>Чому спрацює</th></tr></thead>
+    <tbody>
+    {% for t in rows %}
+        <tr>
+            <td>{{ t.title }}<br><small>{{ t.title_variants|join('; ') }}</small></td>
+            <td>{{ t.hook }}</td>
+            <td><ul>{% for o in t.outline %}<li>{{ o }}</li>{% endfor %}</ul></td>
+            <td>{{ t.cta }}</td>
+            <td>{{ t.score }}</td>
+            <td>{{ t.why_it_works }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+const topicData{{ job_id.replace('-', '_') }} = {{ rows | tojson }};
+function downloadTopics(jobId){
+    const rows = topicData{{ job_id.replace('-', '_') }};
+    const headers = Object.keys(rows[0]);
+    const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','))).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `topics_${jobId}.csv`; a.click();
+    URL.revokeObjectURL(url);
+}
+</script>

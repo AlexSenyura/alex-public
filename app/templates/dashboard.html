@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">Аналіз YouTube</h1>
+<div class="box">
+    <form hx-post="/api/youtube/analyze" hx-target="#job-status-analysis" hx-swap="innerHTML">
+        <div class="columns">
+            <div class="column">
+                <label class="label">YouTube API ключ</label>
+                <input class="input" type="password" name="api_key" required>
+            </div>
+            <div class="column">
+                <label class="label">Ключові слова (CSV)</label>
+                <input class="input" type="text" name="keywords" placeholder="ai, design" required>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <label class="label">Днів назад</label>
+                <input class="input" type="number" name="days_back" value="7">
+            </div>
+            <div class="column">
+                <label class="label">Регіон</label>
+                <div class="select is-fullwidth">
+                    <select name="region">
+                        <option>US</option><option>CA</option><option>GB</option><option>AU</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column">
+                <label class="label">Мова</label>
+                <input class="input" type="text" name="language" value="en">
+            </div>
+            <div class="column">
+                <label class="label">Сортування</label>
+                <div class="select is-fullwidth">
+                    <select name="order">
+                        <option value="viewCount">viewCount</option>
+                        <option value="date">date</option>
+                        <option value="relevance">relevance</option>
+                        <option value="rating">rating</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column"><label class="label">К-сть на запит</label><input class="input" type="number" name="per_query" value="5"></div>
+            <div class="column"><label class="label">Мін. вік, днів</label><input class="input" type="number" name="age_min"></div>
+            <div class="column"><label class="label">Макс. вік, днів</label><input class="input" type="number" name="age_max"></div>
+            <div class="column"><label class="label">Мін. тривалість, хв</label><input class="input" type="number" name="min_minutes"></div>
+            <div class="column"><label class="label">Макс. тривалість, хв</label><input class="input" type="number" name="max_minutes"></div>
+        </div>
+        <div class="columns">
+            <div class="column"><label class="label">Мін. views/day</label><input class="input" type="number" name="min_views_per_day" step="0.1"></div>
+            <div class="column"><label class="label">Мін. залученість %</label><input class="input" type="number" name="min_eng_pct" step="0.1"></div>
+            <div class="column"><label class="label">Макс. підписників</label><input class="input" type="number" name="max_subs"></div>
+            <div class="column"><label class="label">RPM низьке</label><input class="input" type="number" name="rpm_low" step="0.1"></div>
+            <div class="column"><label class="label">RPM високе</label><input class="input" type="number" name="rpm_high" step="0.1"></div>
+        </div>
+        <div class="field">
+            <button class="button is-link" type="submit">Запустити аналіз</button>
+        </div>
+    </form>
+</div>
+<div id="job-status-analysis"></div>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Вхід</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body class="section">
+<div class="container">
+    <div class="column is-half is-offset-one-quarter">
+        <h1 class="title">Вхід</h1>
+        {% if error %}<div class="notification is-danger">{{ error }}</div>{% endif %}
+        <form method="post" action="/login">
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input" type="email" name="email" required>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Пароль</label>
+                <div class="control">
+                    <input class="input" type="password" name="password" required>
+                </div>
+            </div>
+            <div class="field">
+                <button class="button is-primary" type="submit">Увійти</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

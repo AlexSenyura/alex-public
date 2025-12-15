@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or 'YouTube Радар' }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+</head>
+<body>
+<nav class="navbar is-primary">
+  <div class="navbar-brand"><a class="navbar-item" href="/dashboard">YouTube Радар</a></div>
+  <div class="navbar-menu">
+    <div class="navbar-start">
+        <a class="navbar-item" href="/dashboard">Аналіз YouTube</a>
+        <a class="navbar-item" href="/keywords">Ключові слова</a>
+        <a class="navbar-item" href="/topics">AI Теми</a>
+        <a class="navbar-item" href="/movers">Рухомі відео</a>
+        <a class="navbar-item" href="/admin/users">Користувачі</a>
+    </div>
+    <div class="navbar-end">
+        <a class="navbar-item" href="/logout">Вийти</a>
+    </div>
+  </div>
+</nav>
+<section class="section">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</section>
+</body>
+</html>

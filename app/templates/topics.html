@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">AI Генератор тем</h1>
+<div class="box">
+    <form hx-post="/api/topics/generate" hx-target="#job-status-topics" hx-swap="innerHTML">
+        <div class="columns">
+            <div class="column">
+                <label class="label">Ключове слово</label>
+                <input class="input" type="text" name="keyword" required>
+            </div>
+            <div class="column">
+                <label class="label">Чернеток (20-60)</label>
+                <input class="input" type="number" name="bulk_n" value="20" min="20" max="60">
+            </div>
+            <div class="column">
+                <label class="label">Фінальний обсяг (10-20)</label>
+                <input class="input" type="number" name="final_n" value="10" min="10" max="20">
+            </div>
+            <div class="column">
+                <label class="label">Seed</label>
+                <input class="input" type="text" name="seed" placeholder="опційно">
+            </div>
+        </div>
+        <button class="button is-success" type="submit">Згенерувати теми</button>
+    </form>
+</div>
+<div id="job-status-topics"></div>
+{% endblock %}

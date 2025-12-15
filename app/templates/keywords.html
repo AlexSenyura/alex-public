@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">ТОП ключові слова</h1>
+<table class="table is-fullwidth is-striped">
+    <thead><tr><th>Ключ</th><th>Key Score</th><th>SEO Intent</th><th>SEO Difficulty</th><th>Підсумок</th></tr></thead>
+    <tbody>
+    {% for k in scores %}
+        <tr>
+            <td>{{ k.keyword }}</td>
+            <td>{{ '%.1f'|format(k.key_score) }}</td>
+            <td>{{ '%.1f'|format(k.seo_intent_score) }}</td>
+            <td>{{ '%.2f'|format(k.seo_difficulty_lite) }}</td>
+            <td>{{ '%.1f'|format(k.total_score) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
