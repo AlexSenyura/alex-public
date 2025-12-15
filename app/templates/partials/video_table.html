@@ -1,0 +1,47 @@
+{% set rows = status.result %}
+<div class="level">
+    <div class="level-left"><h2 class="title is-4">Результати</h2></div>
+    <div class="level-right">
+        <button class="button is-small" onclick="downloadCSV('{{ job_id }}')">Експорт CSV</button>
+    </div>
+</div>
+<table class="table is-fullwidth is-striped is-hoverable">
+    <thead>
+        <tr>
+            <th>Назва</th><th>Канал</th><th>Опубліковано</th><th>Тривалість (хв)</th><th>Перегляди</th><th>Views/day</th><th>Eng %</th><th>Підписники</th><th>Views/Sub</th><th>Score</th><th>Rating</th><th>Trend</th><th>Ключ</th><th>URL</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for v in rows %}
+        <tr>
+            <td>{{ v.title }}</td>
+            <td>{{ v.channel_title }}</td>
+            <td>{{ v.published_at }}</td>
+            <td>{{ '%.1f'|format(v.duration_min) }}</td>
+            <td>{{ v.views }}</td>
+            <td>{{ '%.1f'|format(v.views_per_day) }}</td>
+            <td>{{ '%.2f'|format(v.engagement_pct) }}</td>
+            <td>{{ v.subs or '-' }}</td>
+            <td>{{ v.views_to_subs or '-' }}</td>
+            <td>{{ '%.1f'|format(v.score) }}</td>
+            <td>{{ '%.1f'|format(v.rating) }}</td>
+            <td>{{ '%.1f'|format(v.trend_score) }}</td>
+            <td>{{ v.keyword }}</td>
+            <td><a href="{{ v.url }}" target="_blank">Відкрити</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+const data{{ job_id.replace('-', '_') }} = {{ rows | tojson }};
+function downloadCSV(jobId){
+    const rows = data{{ job_id.replace('-', '_') }};
+    const headers = Object.keys(rows[0]);
+    const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','))).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `analysis_${jobId}.csv`; a.click();
+    URL.revokeObjectURL(url);
+}
+</script>

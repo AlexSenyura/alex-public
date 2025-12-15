@@ -1,0 +1,26 @@
+<div id="job-status-{{ target or 'task' }}"
+     {% if not status or (status and not status.result and not status.error) %}
+     hx-get="/api/jobs/{{ job_id }}?target={{ target }}" hx-trigger="every 2s" hx-swap="outerHTML"
+     {% endif %}>
+    <div class="notification is-info">
+        <strong>Завдання:</strong> {{ job_id }}
+        {% if status %}
+            <div>Стан: {{ status.status }}</div>
+            <progress class="progress is-primary" max="100" value="{{ status.progress or 0 }}"></progress>
+            {% if status.result %}
+                <div class="mt-2">Готово!</div>
+                {% if target == 'analysis' %}
+                    {% include 'partials/video_table.html' with context %}
+                {% elif target == 'topics' %}
+                    {% include 'partials/topics_table.html' with context %}
+                {% endif %}
+            {% elif status.error %}
+                <div class="notification is-danger">Сталася помилка</div>
+                <pre>{{ status.error }}</pre>
+            {% endif %}
+        {% else %}
+            <div>Стан: готується...</div>
+            <progress class="progress is-small is-info" max="100">loading</progress>
+        {% endif %}
+    </div>
+</div>

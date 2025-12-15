@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">Користувачі</h1>
+<div class="box">
+    <form method="post" action="/admin/users">
+        <div class="columns">
+            <div class="column"><input class="input" name="email" placeholder="Email" required></div>
+            <div class="column"><input class="input" name="password" placeholder="Пароль" required></div>
+            <div class="column">
+                <div class="select is-fullwidth"><select name="role"><option value="user">user</option><option value="admin">admin</option></select></div>
+            </div>
+            <div class="column"><button class="button is-primary" type="submit">Створити</button></div>
+        </div>
+    </form>
+</div>
+<table class="table is-fullwidth is-striped">
+    <thead><tr><th>Email</th><th>Роль</th><th>Активний</th><th>Дії</th></tr></thead>
+    <tbody>
+    {% for u in users %}
+        <tr>
+            <td>{{ u.email }}</td>
+            <td>{{ u.role }}</td>
+            <td>{{ 'так' if u.is_active else 'ні' }}</td>
+            <td>
+                <form method="post" action="/admin/users/{{ u.id }}/toggle" style="display:inline"><button class="button is-small">Toggle</button></form>
+                <form method="post" action="/admin/users/{{ u.id }}/password" style="display:inline">
+                    <input class="input is-small" name="password" placeholder="Новий пароль" required>
+                    <button class="button is-small">Змінити</button>
+                </form>
+                <form method="post" action="/admin/users/{{ u.id }}/delete" style="display:inline"><button class="button is-small is-danger">Видалити</button></form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
